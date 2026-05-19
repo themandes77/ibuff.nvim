@@ -13,6 +13,7 @@ local function get_entry_on_line(bufnr, lnum)
   end
 
   local entry, bufname = vim.split(line, " ", { plain = true })
+  vim.print(entry, bufname)
   return entry, bufname
 end
 
@@ -26,7 +27,9 @@ M.select = {
   callback = function ()
     local entry, bufname = get_entry_on_cursor()
     local bufnr = tonumber(entry)
-    vim.api.nvim_set_current_buf(bufnr)
+    if vim.api.nvim_buf_is_valid(bufnr) then
+      vim.api.nvim_set_current_buf(bufnr)
+    end
   end,
 }
 

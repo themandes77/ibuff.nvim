@@ -25,8 +25,8 @@ M.select = {
   desc = "Open the buffer under the cursor",
   callback = function ()
     local entry, bufname = get_entry_on_cursor()
-    -- local bufnr = tonumber(entry)
-    vim.api.nvim_set_current_buf(entry)
+    local bufnr = tonumber(entry)
+    vim.api.nvim_set_current_buf(bufnr)
   end,
 }
 

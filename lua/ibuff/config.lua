@@ -1,16 +1,12 @@
-local actions = require("ibuff.actions")
-
 local M = {}
 
 M.keybinds = {
   ["<CR>"] = {
-    action = "actions.select",
-    desc = "Select buffer under cursor",
+    "actions.select",
     mode = "n"
   },
   ["q"] = {
-    action = "actions.close",
-    desc = "Close Ibuff",
+    "actions.close",
     mode = "n"
   }
 }

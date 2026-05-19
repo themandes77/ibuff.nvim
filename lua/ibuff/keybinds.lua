@@ -2,7 +2,6 @@ local km = vim.keymap
 local actions = require("ibuff.actions")
 
 local function resolve(v)
-  vim.print(v)
   if type(v) == "string" and vim.startswith(v, "actions.") then
     local action_name = vim.split(v, ".", { plain = true })[2]
     local action = actions[action_name]
@@ -10,8 +9,6 @@ local function resolve(v)
     if not action then
       vim.notify("[ibuff.nvim] Unkown action name: " .. action_name, vim.log.levels.ERROR)
     end
-
-    vim.print("action: " .. action_name)
 
     return resolve(action)
   elseif type(v) == "table" then

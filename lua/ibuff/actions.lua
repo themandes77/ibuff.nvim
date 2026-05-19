@@ -27,9 +27,7 @@ M.select = {
   callback = function ()
     local entry = tonumber(get_entry_on_cursor())
 
-    if vim.api.nvim_buf_is_valid(entry) then
-      vim.api.nvim_set_current_buf(entry)
-    end
+    ibuff.select(entry)
   end,
 }
 

@@ -103,6 +103,13 @@ function M.initialize(bufnr)
 
 end
 
+function M.select(entry)
+  local bufnr = vim.api.nvim_get_current_buf()
+  if vim.api.nvim_buf_is_valid(entry) and Is_Ibuff_buffer(bufnr) then
+    vim.api.nvim_set_current_buf(entry)
+  end
+end
+
 function M.open()
 
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do

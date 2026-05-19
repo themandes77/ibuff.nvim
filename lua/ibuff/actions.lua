@@ -14,7 +14,6 @@ local function get_entry_on_line(bufnr, lnum)
 
   local parts = vim.split(line, " ", { plain = true })
   local entry = parts[1]
-  vim.print(type(entry))
   return entry
 end
 
@@ -27,9 +26,8 @@ M.select = {
   desc = "Open the buffer under the cursor",
   callback = function ()
     local entry = get_entry_on_cursor()
-    local bufnr = tonumber(entry)
-    if vim.api.nvim_buf_is_valid(bufnr) then
-      vim.api.nvim_set_current_buf(bufnr)
+    if vim.api.nvim_buf_is_valid(entry) then
+      vim.api.nvim_set_current_buf(entry)
     end
   end,
 }

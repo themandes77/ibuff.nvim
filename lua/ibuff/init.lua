@@ -106,7 +106,7 @@ end
 function M.select(entry)
   local bufnr = vim.api.nvim_get_current_buf()
   if Is_Ibuff_buffer(bufnr) then
-    entry = number(entry)
+    entry = tonumber(entry)
     if vim.api.nvim_buf_is_valid(entry) then
       vim.api.nvim_set_current_buf(entry)
     end

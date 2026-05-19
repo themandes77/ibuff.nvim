@@ -54,6 +54,7 @@ local M = {}
 function M.setup_keys(keybinds)
   for k, v in pairs(keybinds) do
     local callback, opts, mode = resolve(v)
+    vim.print(mode, k, opts)
     if callback then
       vim.print(mode, k, opts)
       km.set(mode or "", k, callback, opts)

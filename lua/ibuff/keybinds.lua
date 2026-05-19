@@ -1,5 +1,5 @@
 local km = vim.keymap
-local actions = require("ibuff.actiuons")
+local actions = require("ibuff.actions")
 
 local function resolve(v)
   if type(v) == "string" and vim.startswith(v, "actions.") then

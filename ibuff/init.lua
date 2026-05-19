@@ -14,6 +14,7 @@ end
 local function render_table(lines)
   local str_lines = {}
   table.insert(str_lines, "Buffer Number             File Name")
+  table.insert(str_lines, "\n\n")
 
   for _, bufnr in ipairs(lines) do
     if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_is_valid(bufnr) then
@@ -154,8 +155,5 @@ vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
     end
   end,
 })
-
-vim.keymap.set("n", "<CR>", actions.select.callback, {})
-vim.keymap.set("n", "q", M.close, {})
 
 return M

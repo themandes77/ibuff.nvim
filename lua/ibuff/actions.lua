@@ -25,7 +25,7 @@ end
 M.select = {
   desc = "Open the buffer under the cursor",
   callback = function ()
-    local entry = tonumber(get_entry_on_cursor())
+    local entry = get_entry_on_cursor()
 
     ibuff.select(entry)
   end,

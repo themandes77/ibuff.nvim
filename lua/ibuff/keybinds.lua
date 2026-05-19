@@ -3,6 +3,7 @@ local actions = require("ibuff.actions")
 
 local function resolve(v)
   if type(v) == "string" and vim.startswith(v, "actions.") then
+    vim.print("string")
     local action_name = vim.split(v, ".", { plain = true })[2]
     local action = actions[action_name]
     if not action then
@@ -10,6 +11,7 @@ local function resolve(v)
     end
     return resolve(action)
   elseif type(v) == "table" then
+    vim.print("table")
     local opts = vim.deepcopy(v)
     local callback, parent_opts = resolve(opts.callback)
 
@@ -23,6 +25,7 @@ local function resolve(v)
 
     local mode = opts.mode
     if type(v.callback) == "string" then
+      vim.print("callback string")
       local action_opts, action_mode
       callback, action_opts, action_mode = resolve(v)
       opts = vim.tbl_extend("keep", opts, action_opts)
@@ -36,6 +39,7 @@ local function resolve(v)
     opts.parameters = nil
 
     if opts.opts and type(callback) == "function" then
+      vim.print("function")
       opts.opts = nil
       local orig_callback = callback
       callback = function()
@@ -54,9 +58,7 @@ local M = {}
 function M.setup_keys(keybinds)
   for k, v in pairs(keybinds) do
     local callback, opts, mode = resolve(v)
-    vim.print(type(callback), mode, k, opts)
     if callback then
-      vim.print(mode, k, opts)
       km.set(mode or "", k, callback, opts)
     end
   end

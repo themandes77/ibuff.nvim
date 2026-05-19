@@ -1,4 +1,5 @@
 local utils = require("ibuff.utils")
+local ibuff = require("ibuff")
 
 local M = {}
 
@@ -26,6 +27,14 @@ M.select = {
     local entry = get_entry_on_cursor()
     local bufnr = tonumber(entry[1])
     vim.api.nvim_set_current_buf(bufnr)
+  end,
+  mode = ""
+}
+
+M.close = {
+  desc = "Close Ibuff",
+  callback = function()
+    ibuff.close()
   end
 }
 

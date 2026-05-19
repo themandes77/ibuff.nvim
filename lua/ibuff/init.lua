@@ -11,11 +11,18 @@ local function Is_Ibuff_buffer(bufnr)
   return false
 end
 
+-- TODO: find a better name for Buffer Number
+-- Use ~/.../file instead of /home/username/.../file
+-- Use File name ex: test.lua instead of /home/username/.../test.lua
+-- Add keybinds
+-- Add a setup
+-- Add some config options
+
 local function render_table(lines)
   local str_lines = {}
 
-  table.insert(str_lines, "")
-  table.insert(str_lines, "Buffer Number             File Name")
+  table.insert(str_lines, "Buffer Number             Name                   Filename")
+  table.insert(str_lines, "------------              ----                   --------")
 
   for _, bufnr in ipairs(lines) do
     if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_is_valid(bufnr) then
@@ -140,21 +147,23 @@ end
   vim.api.nvim_buf_delete(ibuf, {force = true})
 end
 
-vim.api.nvim_create_user_command("Ibuff", M.open, {desc = "open Ibuff"})
+function M.setup()
+  vim.api.nvim_create_user_command("Ibuff", M.open, {desc = "open Ibuff"})
 
-local aug = vim.api.nvim_create_augroup("Ibuff", { clear = true })
+  local aug = vim.api.nvim_create_augroup("Ibuff", { clear = true })
 
-vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
-  group = aug,
-  callback = function()
-    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-      if vim.bo[bufnr].filetype == "ibuff" and vim.api.nvim_buf_is_valid(bufnr) then
-        if #vim.fn.win_findbuf(bufnr) > 0 then
-          render_buffer_async(bufnr)
+  vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+    group = aug,
+    callback = function()
+      for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.bo[bufnr].filetype == "ibuff" and vim.api.nvim_buf_is_valid(bufnr) then
+          if #vim.fn.win_findbuf(bufnr) > 0 then
+            render_buffer_async(bufnr)
+          end
         end
       end
-    end
-  end,
-})
+    end,
+  })
+end
 
 return M

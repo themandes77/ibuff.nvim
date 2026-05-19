@@ -3,9 +3,10 @@ local actions = require("ibuff.actions")
 
 local function resolve(v)
   if type(v) == "string" and vim.startswith(v, "actions.") then
-    vim.print("string")
+    vim.print(v .. "string")
     local action_name = vim.split(v, ".", { plain = true })[2]
     local action = actions[action_name]
+    vim.print(action_name)
     if not action then
       vim.notify("[ibuff.nvim] Unkown action name: " .. action_name, vim.log.levels.ERROR)
     end

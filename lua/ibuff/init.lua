@@ -130,6 +130,7 @@ end
 
  function M.close()
   local ibuf = vim.api.nvim_get_current_buf()
+
   if not vim.api.nvim_buf_is_valid(ibuf) then
     return false
   end

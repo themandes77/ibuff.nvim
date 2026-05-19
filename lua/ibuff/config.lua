@@ -1,10 +1,7 @@
 local M = {}
 
 M.keybinds = {
-  ["<CR>"] = {
-    "actions.select",
-    mode = "n"
-  },
+  ["<CR>"] = "actions.select",
   ["q"] = {
     "actions.close",
     mode = "n"

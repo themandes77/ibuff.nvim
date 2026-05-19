@@ -16,7 +16,7 @@ local function resolve(v)
     return resolve(action)
   elseif type(v) == "table" then
     local opts = vim.deepcopy(v)
-    local callback, parent_opts = resolve(opts.callback)
+    local callback, parent_opts = resolve(opts.callback or opts[1])
 
     if parent_opts.desc and not opts.desc then
       if opts.desc then

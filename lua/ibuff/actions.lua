@@ -12,8 +12,8 @@ local function get_entry_on_line(bufnr, lnum)
     return nil
   end
 
-  local parts = utils.str_split(line, " ")
-  return parts
+  local entry, bufname = vim.split(line, " ")
+  return entry, bufname
 end
 
 local function get_entry_on_cursor()
@@ -24,11 +24,10 @@ end
 M.select = {
   desc = "Open the buffer under the cursor",
   callback = function ()
-    local entry = get_entry_on_cursor()
-    local bufnr = tonumber(entry[1])
+    local entry, bufname = get_entry_on_cursor()
+    local bufnr = tonumber(entry)
     vim.api.nvim_set_current_buf(bufnr)
   end,
-  mode = ""
 }
 
 M.close = {

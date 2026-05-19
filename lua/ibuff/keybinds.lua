@@ -53,11 +53,13 @@ end
 
 local M = {}
 
-function M.setup_keys(keybinds)
+---@param keybinds table<string, string|table|fun()>
+---@param bufnr number
+function M.setup_keys(keybinds, bufnr)
   for k, v in pairs(keybinds) do
     local callback, opts, mode = resolve(v)
     if callback then
-      km.set(mode or "", k, callback, opts)
+      km.set(mode or "", k, callback, vim.tbl_extend("force", opts, { buffer = bufnr }))
     end
   end
 end

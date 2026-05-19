@@ -59,7 +59,7 @@ local function render_buffer_async(bufnr)
   vim.bo[bufnr].modified = false
   vim.api.nvim_win_set_cursor(0, {2,0})
 
-  keybinds.setup_keys(config.keybinds)
+  keybinds.setup_keys(config.keybinds, bufnr)
 end
 
 function M.initialize(bufnr)

@@ -13,7 +13,7 @@ local function get_entry_on_line(bufnr, lnum)
   end
 
   local entry, bufname = vim.split(line, " ", { plain = true })
-  vim.print(entry, bufname)
+  vim.print(type(entry), bufname)
   return entry, bufname
 end
 

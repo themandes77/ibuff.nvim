@@ -16,7 +16,7 @@ end
 local function render_table(lines)
   local str_lines = {}
 
-  table.insert(str_lines, "Buffer Number             Name                   Filename")
+  table.insert(str_lines, "#                         Name                   Filename")
   table.insert(str_lines, "------------              ----                   --------")
 
   for _, bufnr in ipairs(lines) do

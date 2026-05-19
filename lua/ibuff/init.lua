@@ -1,5 +1,3 @@
-local actions = require("ibuff.actions")
-
 local M = {}
 
 local session = {}
@@ -14,9 +12,6 @@ end
 -- TODO: find a better name for Buffer Number
 -- Use ~/.../file instead of /home/username/.../file
 -- Use File name ex: test.lua instead of /home/username/.../test.lua
--- Add keybinds
--- Add a setup
--- Add some config options
 
 local function render_table(lines)
   local str_lines = {}

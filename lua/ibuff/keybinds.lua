@@ -51,7 +51,7 @@ end
 
 local M = {}
 
-function M.setup_kes(keybinds)
+function M.setup_keys(keybinds)
   for k, v in pairs(keybinds) do
     local callback, opts, mode = resolve(v)
     if callback then

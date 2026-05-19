@@ -33,6 +33,9 @@ local function render_table(lines)
 end
 
 local function render_buffer_async(bufnr)
+  local keybinds = require("ibuff.keybinds")
+  local config = require("ibuff.config")
+
   if bufnr == 0 then
     bufnr = vim.api.nvim_get_current_buf()
   end
@@ -55,6 +58,8 @@ local function render_buffer_async(bufnr)
   vim.bo[bufnr].modifiable = false
   vim.bo[bufnr].modified = false
   vim.api.nvim_win_set_cursor(0, {2,0})
+
+  keybinds.setup_keys(config.keybinds)
 end
 
 function M.initialize(bufnr)

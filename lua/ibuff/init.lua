@@ -32,12 +32,15 @@ local function render_table(lines)
   return str_lines
 end
 
+  local prev_buf
+  local prev_buf_name
+
 local function render_buffer_async(bufnr)
   local keybinds = require("ibuff.keybinds")
   local config = require("ibuff.config")
 
-  local prev_buf = vim.api.nvim_get_current_buf()
-  local prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
+  prev_buf = vim.api.nvim_get_current_buf()
+  prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
 
   if bufnr == 0 then
     bufnr = vim.api.nvim_get_current_buf()
@@ -61,6 +64,7 @@ local function render_buffer_async(bufnr)
   vim.bo[bufnr].modified = false
 
   local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
+
   for i, str in ipairs(buf_lines) do
     if str:gmatch(prev_buf_name) then
       vim.api.nvim_win_set_cursor(0, {i,0})

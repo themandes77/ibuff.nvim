@@ -62,13 +62,11 @@ local function render_buffer_async(bufnr)
 
   local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
   for i, str in ipairs(buf_lines) do
-    vim.print(i, str)
     if str:gmatch(prev_buf_name) then
-      print("Yes")
+      vim.api.nvim_win_set_cursor(0, {i,0})
     end
   end
 
-  vim.api.nvim_win_set_cursor(0, {2,0})
 
   keybinds.setup_keys(config.keybinds, bufnr)
 end

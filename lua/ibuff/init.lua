@@ -65,9 +65,12 @@ local function render_buffer_async(bufnr)
 
   local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
 
+  vim.print(prev_buf_name)
+
   for i, str in ipairs(buf_lines) do
     if str:gmatch(prev_buf_name) then
       vim.api.nvim_win_set_cursor(0, {i,0})
+      prev_buf_name = ""
     end
   end
 

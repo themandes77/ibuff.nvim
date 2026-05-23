@@ -63,7 +63,7 @@ local function render_buffer_async(bufnr)
   local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
   for i, str in ipairs(buf_lines) do
     vim.print(i, str)
-    if string.match(prev_buf_name, str) then
+    if str:gmatch(prev_buf_name) then
       print("Yes")
     end
   end

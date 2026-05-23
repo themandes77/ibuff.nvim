@@ -16,8 +16,8 @@ end
 local function render_table(lines)
   local str_lines = {}
 
-  table.insert(str_lines, "#                         Name                   Filename")
-  table.insert(str_lines, "------------              ----                   --------")
+  table.insert(str_lines, " #                         Name                   Filename")
+  table.insert(str_lines, "---                        ----                   --------")
 
   for _, bufnr in ipairs(lines) do
     if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_is_valid(bufnr) then
@@ -49,7 +49,6 @@ local function render_buffer_async(bufnr)
   end
 
   local entries = vim.api.nvim_list_bufs()
-  -- local entry_list = vim.tbl_values(entries)
 
   local lines = render_table(entries)
 
@@ -57,6 +56,8 @@ local function render_buffer_async(bufnr)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, lines)
   vim.bo[bufnr].modifiable = false
   vim.bo[bufnr].modified = false
+  local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
+  vim.print(buf_lines)
   vim.api.nvim_win_set_cursor(0, {2,0})
 
   keybinds.setup_keys(config.keybinds, bufnr)

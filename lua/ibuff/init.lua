@@ -61,8 +61,8 @@ local function render_buffer_async(bufnr)
   vim.bo[bufnr].modified = false
 
   local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
-  for _, str in ipairs(buf_lines) do
-    vim.print(str)
+  for i, str in ipairs(buf_lines) do
+    vim.print(i, str)
     if string.match(prev_buf_name, str) then
       print("Yes")
     end

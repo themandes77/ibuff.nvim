@@ -36,8 +36,8 @@ local function render_buffer_async(bufnr)
   local keybinds = require("ibuff.keybinds")
   local config = require("ibuff.config")
 
-  local curr_buff = vim.api.nvim_get_current_buf()
-  local prev_buf_name = vim.api.nvim_buf_get_name(curr_buff)
+  local prev_buf = vim.api.nvim_get_current_buf()
+  local prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
 
   if bufnr == 0 then
     bufnr = vim.api.nvim_get_current_buf()
@@ -62,10 +62,12 @@ local function render_buffer_async(bufnr)
 
   local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
   for _, str in ipairs(buf_lines) do
+    vim.print(str)
     if string.match(prev_buf_name, str) then
       print("Yes")
     end
   end
+
   vim.api.nvim_win_set_cursor(0, {2,0})
 
   keybinds.setup_keys(config.keybinds, bufnr)

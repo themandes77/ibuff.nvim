@@ -12,7 +12,6 @@ end
 -- TODO: find a better name for Buffer Number
 -- Use ~/.../file instead of /home/username/.../file
 -- Use File name ex: test.lua instead of /home/username/.../test.lua
---
 
 local function render_table(lines)
   local str_lines = {}
@@ -33,19 +32,9 @@ local function render_table(lines)
   return str_lines
 end
 
-  local prev_buf
-  local prev_buf_name
-
 local function render_buffer_async(bufnr)
   local keybinds = require("ibuff.keybinds")
   local config = require("ibuff.config")
-
-  prev_buf = vim.api.nvim_get_current_buf()
-  if Is_Ibuff_buffer(prev_buf) then
-    prev_buf_name = ""
-  else
-    prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
-  end
 
   if bufnr == 0 then
     bufnr = vim.api.nvim_get_current_buf()
@@ -70,15 +59,14 @@ local function render_buffer_async(bufnr)
 
   local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
 
-  vim.print(prev_buf_name)
+  local prev = session[bufnr] and session[bufnr].prev_buf
+  local prev_buf_name = vim.api.nvim_buf_get_name(prev)
 
   for i, str in ipairs(buf_lines) do
-    if str == prev_buf_name then
+    if str:match(prev_buf_name) then
       vim.api.nvim_win_set_cursor(0, {i,0})
-      prev_buf_name = ""
     end
   end
-
 
   keybinds.setup_keys(config.keybinds, bufnr)
 end
@@ -135,11 +123,10 @@ function M.select(entry)
 end
 
 function M.open()
-
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_buf_get_name(bufnr) == "Ibuff" then
       session[bufnr] = session[bufnr] or {}
-      session[bufnr].previous_buf = vim.api.nvim_get_current_buf()
+      session[bufnr].prev_buf = vim.api.nvim_get_current_buf()
       vim.api.nvim_set_current_buf(bufnr)
       render_buffer_async(bufnr)
       return
@@ -154,9 +141,9 @@ function M.open()
   local prev_buf = vim.api.nvim_get_current_buf()
 
   M.initialize(ibuff_buffer)
-  session[ibuff_buffer].previous_buf = prev_buf
-  vim.api.nvim_set_current_buf(ibuff_buffer)
 
+  session[ibuff_buffer].prev_buf = prev_buf
+  vim.api.nvim_set_current_buf(ibuff_buffer)
 end
 
  function M.close()
@@ -169,7 +156,7 @@ end
     return false
   end
 
-  local prev = session[ibuf] and session[ibuf].previous_buf
+  local prev = session[ibuf] and session[ibuf].prev_buf
   if prev and vim.api.nvim_buf_is_valid(prev) then
     vim.api.nvim_set_current_buf(prev)
   else
@@ -190,7 +177,7 @@ function M.setup()
       for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if vim.bo[bufnr].filetype == "ibuff" and vim.api.nvim_buf_is_valid(bufnr) then
           if #vim.fn.win_findbuf(bufnr) > 0 then
-            render_buffer_async(bufnr)
+            M.open()
           end
         end
       end

@@ -12,6 +12,7 @@ end
 -- TODO: find a better name for Buffer Number
 -- Use ~/.../file instead of /home/username/.../file
 -- Use File name ex: test.lua instead of /home/username/.../test.lua
+--
 
 local function render_table(lines)
   local str_lines = {}
@@ -40,7 +41,11 @@ local function render_buffer_async(bufnr)
   local config = require("ibuff.config")
 
   prev_buf = vim.api.nvim_get_current_buf()
-  prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
+  if Is_Ibuff_buffer(prev_buf) then
+    prev_buf_name = ""
+  else
+    prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
+  end
 
   if bufnr == 0 then
     bufnr = vim.api.nvim_get_current_buf()
@@ -68,7 +73,7 @@ local function render_buffer_async(bufnr)
   vim.print(prev_buf_name)
 
   for i, str in ipairs(buf_lines) do
-    if str:gmatch(prev_buf_name) then
+    if str == prev_buf_name then
       vim.api.nvim_win_set_cursor(0, {i,0})
       prev_buf_name = ""
     end

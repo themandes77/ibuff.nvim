@@ -23,7 +23,9 @@ local function render_table(lines)
     if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_is_valid(bufnr) then
       if vim.bo[bufnr].buflisted then
         local bufname = vim.api.nvim_buf_get_name(bufnr)
-        table.insert(str_lines, bufnr .. "              " .. "                " .. bufname)
+        local splits = vim.split(bufname, "/")
+        local name = splits[#splits]
+        table.insert(str_lines, bufnr .. "              " .. name .. "                " .. bufname)
       end
     else
     end

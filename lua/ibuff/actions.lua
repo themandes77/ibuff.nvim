@@ -1,5 +1,4 @@
 local ibuff = require("ibuff")
-local utils = require("ibuff.utils")
 
 local M = {}
 

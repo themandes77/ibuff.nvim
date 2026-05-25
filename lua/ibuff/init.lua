@@ -16,14 +16,14 @@ end
 local function render_table(lines)
   local str_lines = {}
 
-  table.insert(str_lines, " #                         Name                   Filename")
-  table.insert(str_lines, "---                        ----                   --------")
+  table.insert(str_lines, "bufnr                         Name                   Filename")
+  table.insert(str_lines, "-----                         ----                   --------")
 
   for _, bufnr in ipairs(lines) do
     if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_is_valid(bufnr) then
       if vim.bo[bufnr].buflisted then
         local bufname = vim.api.nvim_buf_get_name(bufnr)
-        table.insert(str_lines, bufnr .. "              " .. bufname)
+        table.insert(str_lines, bufnr .. "              " .. "                " .. bufname)
       end
     else
     end

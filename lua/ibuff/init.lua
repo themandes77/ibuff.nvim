@@ -9,15 +9,11 @@ local function Is_Ibuff_buffer(bufnr)
   return false
 end
 
--- TODO: find a better name for Buffer Number
--- Use ~/.../file instead of /home/username/.../file
--- Use File name ex: test.lua instead of /home/username/.../test.lua
-
 local function render_table(lines)
   local str_lines = {}
 
-  table.insert(str_lines, "bufnr                         Name                   Filename")
-  table.insert(str_lines, "-----                         ----                   --------")
+  table.insert(str_lines, "bufnr            state                     Name                                  Filename")
+  table.insert(str_lines, "-----            -----                     ----                                  --------")
 
   for _, bufnr in ipairs(lines) do
     if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_is_valid(bufnr) then
@@ -25,9 +21,20 @@ local function render_table(lines)
         local bufname = vim.api.nvim_buf_get_name(bufnr)
         local splits = vim.split(bufname, "/")
         local name = splits[#splits]
-        table.insert(str_lines, bufnr .. "              " .. name .. "                " .. bufname)
+        local state = "h"
+
+        local ibufBuf = vim.api.nvim_get_current_buf()
+        if Is_Ibuff_buffer(ibufBuf) then
+          local prev_buf = session[ibufBuf] and session[ibufBuf].prev_buf
+          local prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
+          if bufname:match(prev_buf_name) then
+            state = "a"
+          end
+        end
+
+        table.insert(str_lines, string.format("%-18d %-22s %-20s %-35s", bufnr, state, name, bufname)) -- didn't know i could do this, im dumb
+
       end
-    else
     end
   end
 

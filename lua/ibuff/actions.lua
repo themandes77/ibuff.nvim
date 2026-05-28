@@ -37,4 +37,12 @@ M.close = {
   end
 }
 
+M.delete = {
+  desc = "Delete buffer",
+  callback = function ()
+    local entry = tonumber(get_entry_on_cursor())
+    ibuff.delete(entry)
+  end
+}
+
 return M

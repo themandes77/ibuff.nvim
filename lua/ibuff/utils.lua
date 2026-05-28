@@ -25,9 +25,11 @@ function M.render_table(lines)
                 local ibufBuf = vim.api.nvim_get_current_buf()
                 if M.Is_Ibuff_buffer(ibufBuf) then
                     local prev_buf = session[ibufBuf] and session[ibufBuf].prev_buf
-                    local prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
-                    if bufname:match(prev_buf_name) then
-                        state = "%a"
+                    if prev_buf and vim.api.nvim_buf_is_valid(prev_buf) then
+                        local prev_buf_name = vim.api.nvim_buf_get_name(prev_buf)
+                        if bufname:find(prev_buf_name, 1, true) then
+                            state = "%a"
+                        end
                     end
                 end
 
@@ -69,11 +71,13 @@ function M.render_buffer_async(bufnr)
     local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, true)
 
     local prev = session[bufnr] and session[bufnr].prev_buf
-    local prev_buf_name = vim.api.nvim_buf_get_name(prev)
+    if prev and vim.api.nvim_buf_is_valid(prev) then
+        local prev_buf_name = vim.api.nvim_buf_get_name(prev)
 
-    for i, str in ipairs(buf_lines) do
-        if str:match(prev_buf_name) then
-            vim.api.nvim_win_set_cursor(0, {i,0})
+        for i, str in ipairs(buf_lines) do
+            if str:find(prev_buf_name, 1, true) then
+                vim.api.nvim_win_set_cursor(0, {i,0})
+            end
         end
     end
 
@@ -94,7 +98,7 @@ function M.setSessionPrevbuf(bufnr, prev_buf)
 end
 
 function M.setSession(bufnr)
-   session[bufnr] = session or {}
+   session[bufnr] = session[bufnr] or {}
 end
 
 function M.sessionDelete(bufnr)

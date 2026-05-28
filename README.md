@@ -18,6 +18,7 @@ The buffer list auto-refreshes when buffers are added or removed.
 |-----|--------|
 | `<CR>` | Switch to buffer under cursor |
 | `q` | Close ibuff and return to previous buffer |
+| `d` | Delete buffer |
 
 ## Installation
 
@@ -25,6 +26,10 @@ Use your preferred plugin manager. Example with lazy.nvim:
 
 ```lua
 { "mandes/ibuff.nvim", lazy = false }
+```
+or vim.pack
+```lua
+vim.pack.add("https://github.com/themandes77/ibuff.nvim")
 ```
 
 Call `require("ibuff").setup()` to register the `:Ibuff` command and autocommands.

@@ -4,6 +4,8 @@ An Emacs ibuffer-inspired buffer manager for Neovim.
 
 Opens a dedicated scratch buffer listing all open buffers with their number, state, name, and full path. Navigate the list with normal Vim motions, press `<Enter>` to switch to a buffer, or `q` to close the list and return to the previous buffer.
 
+![ibuff-nvim](images/ibuff.png)
+
 ## Usage
 
 ```
